@@ -5,8 +5,8 @@ import javax.swing.table.AbstractTableModel;
 
 public class LinesTableModel extends AbstractTableModel {
 
-    private ArrayList<Line> lines;
-    private String[] columns = {"No.", "Item Name", "Item Price", "Count", "Item Total"};
+    private final ArrayList<Line> lines;
+    private final String[] columns = {"No.", "Item Name", "Item Price", "Count", "Item Total"};
 
     public LinesTableModel(ArrayList<Line> lines) {
         this.lines = lines;
@@ -36,14 +36,14 @@ public class LinesTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Line line = lines.get(rowIndex);
 
-        switch(columnIndex) {
-            case 0: return line.getInvoice().getNum();
-            case 1: return line.getItem();
-            case 2: return line.getPrice();
-            case 3: return line.getCount();
-            case 4: return line.getLineTotal();
-            default : return "";
-        }
+        return switch (columnIndex) {
+            case 0 -> line.invoice().getNum();
+            case 1 -> line.item();
+            case 2 -> line.price();
+            case 3 -> line.count();
+            case 4 -> line.getLineTotal();
+            default -> "";
+        };
     }
 
 }

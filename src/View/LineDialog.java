@@ -1,11 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package View;
-
-import View.InvoiceFrame;
 
 import java.awt.GridLayout;
 import javax.swing.JButton;
@@ -15,27 +8,22 @@ import javax.swing.JTextField;
 
 
 public class LineDialog extends JDialog{
-    private JTextField itemNameField;
-    private JTextField itemCountField;
-    private JTextField itemPriceField;
-    private JLabel itemNameLbl;
-    private JLabel itemCountLbl;
-    private JLabel itemPriceLbl;
-    private JButton okBtn;
-    private JButton cancelBtn;
+    private final JTextField itemNameField;
+    private final JTextField itemCountField;
+    private final JTextField itemPriceField;
 
     public LineDialog(InvoiceFrame frame) {
         itemNameField = new JTextField(20);
-        itemNameLbl = new JLabel("Item Name");
+        JLabel itemNameLbl = new JLabel("Item Name");
 
         itemCountField = new JTextField(20);
-        itemCountLbl = new JLabel("Item Count");
+        JLabel itemCountLbl = new JLabel("Item Count");
 
         itemPriceField = new JTextField(20);
-        itemPriceLbl = new JLabel("Item Price");
+        JLabel itemPriceLbl = new JLabel("Item Price");
 
-        okBtn = new JButton("OK");
-        cancelBtn = new JButton("Cancel");
+        JButton okBtn = new JButton("OK");
+        JButton cancelBtn = new JButton("Cancel");
 
         okBtn.setActionCommand("createLineOK");
         cancelBtn.setActionCommand("createLineCancel");

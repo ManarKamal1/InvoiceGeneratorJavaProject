@@ -7,6 +7,10 @@ import Model.LinesTableModel;
 import View.InvoiceDialog;
 import View.InvoiceFrame;
 import View.LineDialog;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -15,20 +19,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 public class Controller implements ActionListener, ListSelectionListener {
 
-    private InvoiceFrame frame;
+    private final InvoiceFrame frame;
     private InvoiceDialog invoiceDialog;
     private LineDialog lineDialog;
 
@@ -41,36 +37,16 @@ public class Controller implements ActionListener, ListSelectionListener {
         String actionCommand = e.getActionCommand();
         System.out.println("Action: " + actionCommand);
         switch (actionCommand) {
-            case "Load File":
-                loadFile();
-                break;
-            case "Save File":
-                saveFile();
-                break;
-            case "Create New Invoice":
-                createNewInvoice();
-                break;
-            case "Delete Invoice":
-                deleteInvoice();
-                break;
-            case "Create New Item":
-                createNewItem();
-                break;
-            case "Delete Item":
-                deleteItem();
-                break;
-            case "createInvoiceCancel":
-                createInvoiceCancel();
-                break;
-            case "createInvoiceOK":
-                createInvoiceOK();
-                break;
-            case "createLineOK":
-                createLineOK();
-                break;
-            case "createLineCancel":
-                createLineCancel();
-                break;
+            case "Load File" -> loadFile();
+            case "Save File" -> saveFile();
+            case "Create New Invoice" -> createNewInvoice();
+            case "Delete Invoice" -> deleteInvoice();
+            case "Create New Item" -> createNewItem();
+            case "Delete Item" -> deleteItem();
+            case "createInvoiceCancel" -> createInvoiceCancel();
+            case "createInvoiceOK" -> createInvoiceOK();
+            case "createLineOK" -> createLineOK();
+            case "createLineCancel" -> createLineCancel();
         }
     }
 
@@ -163,7 +139,7 @@ public class Controller implements ActionListener, ListSelectionListener {
     private void saveFile() {
         ArrayList<Invoice> invoices = frame.getInvoices();
         String headers = "";
-        String lines = "";
+        StringBuilder lines = new StringBuilder();
         for (Invoice invoice : invoices) {
             String invCSV = invoice.getAsCSV();
             headers += invCSV;
@@ -171,8 +147,8 @@ public class Controller implements ActionListener, ListSelectionListener {
 
             for (Line line : invoice.getLines()) {
                 String lineCSV = line.getAsCSV();
-                lines += lineCSV;
-                lines += "\n";
+                lines.append(lineCSV);
+                lines.append("\n");
             }
         }
         System.out.println("Check point");
@@ -189,7 +165,7 @@ public class Controller implements ActionListener, ListSelectionListener {
                 if (result == JFileChooser.APPROVE_OPTION) {
                     File lineFile = fc.getSelectedFile();
                     FileWriter lfw = new FileWriter(lineFile);
-                    lfw.write(lines);
+                    lfw.write(lines.toString());
                     lfw.flush();
                     lfw.close();
                 }
@@ -245,7 +221,6 @@ public class Controller implements ActionListener, ListSelectionListener {
             } else {
                 int day = Integer.parseInt(dateParts[0]);
                 int month = Integer.parseInt(dateParts[1]);
-                int year = Integer.parseInt(dateParts[2]);
                 if (day > 31 || month > 12) {
                     JOptionPane.showMessageDialog(frame, "Wrong date format", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {

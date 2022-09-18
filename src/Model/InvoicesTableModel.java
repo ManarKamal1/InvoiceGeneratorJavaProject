@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
 public class InvoicesTableModel extends AbstractTableModel {
-    private ArrayList<Invoice> invoices;
-    private String[] columns = {"No.", "Date", "Customer", "Total"};
+    private final ArrayList<Invoice> invoices;
+    private final String[] columns = {"No.", "Date", "Customer", "Total"};
 
     public InvoicesTableModel(ArrayList<Invoice> invoices) {
         this.invoices = invoices;
@@ -30,12 +30,12 @@ public class InvoicesTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         Invoice invoice = invoices.get(rowIndex);
 
-        switch (columnIndex) {
-            case 0: return invoice.getNum();
-            case 1: return invoice.getDate();
-            case 2: return invoice.getCustomer();
-            case 3: return invoice.getInvoiceTotal();
-            default : return "";
-        }
+        return switch (columnIndex) {
+            case 0 -> invoice.getNum();
+            case 1 -> invoice.getDate();
+            case 2 -> invoice.getCustomer();
+            case 3 -> invoice.getInvoiceTotal();
+            default -> "";
+        };
     }
 }
